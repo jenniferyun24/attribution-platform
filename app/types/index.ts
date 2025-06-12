@@ -1,41 +1,60 @@
-export interface Channel {
+import { CHANNELS, METRICS, RECOMMENDATION_IMPACT, RECOMMENDATION_CATEGORY } from '../lib/constants';
+// If the above import fails, try './lib/constants' instead.
+
+export type Channel = typeof CHANNELS[number];
+export type Metric = typeof METRICS[keyof typeof METRICS];
+export type RecommendationImpact = typeof RECOMMENDATION_IMPACT[keyof typeof RECOMMENDATION_IMPACT];
+export type RecommendationCategory = typeof RECOMMENDATION_CATEGORY[keyof typeof RECOMMENDATION_CATEGORY];
+
+export interface User {
   id: string;
+  email: string;
   name: string;
+}
+
+export interface ChannelData {
+  name: Channel;
   score: number;
   budget: number;
   roas: number;
   impressions: number;
   clicks: number;
   conversions: number;
-  category: 'Brand Awareness' | 'Interest Generation' | 'Purchase Conversion';
 }
 
 export interface TrendData {
   date: string;
-  attribution: number;
-  channels: {
-    [key: string]: number;
-  };
-}
-
-export interface DashboardData {
-  channels: Channel[];
-  trends: TrendData[];
-  totalBudget: number;
-  averageROAS: number;
-  attributionScore: number;
-  lastUpdated: string;
+  impressions: number;
+  clicks: number;
+  conversions: number;
+  revenue: number;
 }
 
 export interface CustomerJourney {
-  id: string;
-  customerId: string;
   touchpoints: {
-    channel: string;
+    channel: Channel;
     timestamp: string;
-    action: 'view' | 'click' | 'search' | 'purchase';
-    value?: number;
+    type: 'impression' | 'click' | 'conversion';
   }[];
+  conversionValue: number;
+  conversionTime: string;
   converted: boolean;
-  revenue?: number;
+}
+
+export interface DashboardData {
+  channelData: ChannelData[];
+  trendData: TrendData[];
+  customerJourney: CustomerJourney[];
+  metrics: {
+    [key in Metric]?: number;
+  };
+  lastUpdated: string;
+}
+
+export interface Recommendation {
+  id: string;
+  title: string;
+  description: string;
+  impact: RecommendationImpact;
+  category: RecommendationCategory;
 } 

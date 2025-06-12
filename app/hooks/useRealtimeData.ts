@@ -30,7 +30,7 @@ export const useRealtimeData = (updateInterval: number = 5000) => {
         
         return {
           ...prevData,
-          channels: simulateRealTimeUpdate(prevData.channels),
+          channelData: simulateRealTimeUpdate(prevData.channelData),
           lastUpdated: new Date().toISOString()
         };
       });
