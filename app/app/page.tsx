@@ -7,9 +7,13 @@ import {
   PlayCircle, Upload, Database, Cpu, Bell, Calendar, Download
 } from 'lucide-react';
 
+// 1. APIKey 타입 정의
+export type APIKey = 'googleAnalytics' | 'facebookAds' | 'googleAds' | 'naverAds' | 'instagram' | 'youtube';
+
 const AttributionPlatform = () => {
+  // 2. connectedAPIs에 타입 적용
   const [currentView, setCurrentView] = useState('landing');
-  const [connectedAPIs, setConnectedAPIs] = useState({
+  const [connectedAPIs, setConnectedAPIs] = useState<Record<APIKey, boolean>>({
     googleAnalytics: false,
     facebookAds: false,
     googleAds: false,
@@ -257,18 +261,19 @@ const AttributionPlatform = () => {
                       <p className="text-sm text-gray-600">{api.desc}</p>
                     </div>
                   </div>
-                  {connectedAPIs[api.key] ? (
+                  {/* 3. as APIKey로 인덱싱 */}
+                  {connectedAPIs[api.key as APIKey] ? (
                     <CheckCircle className="h-6 w-6 text-green-500" />
                   ) : (
                     <button 
-                      onClick={() => setConnectedAPIs({...connectedAPIs, [api.key]: true})}
+                      onClick={() => setConnectedAPIs({...connectedAPIs, [api.key as APIKey]: true})}
                       className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700"
                     >
                       연결
                     </button>
                   )}
                 </div>
-                {connectedAPIs[api.key] && (
+                {connectedAPIs[api.key as APIKey] && (
                   <div className="bg-green-50 border border-green-200 rounded p-3">
                     <p className="text-sm text-green-700">✅ 연결 완료! 데이터 수집을 시작합니다.</p>
                   </div>
