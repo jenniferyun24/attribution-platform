@@ -1,43 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, Container, Box, Button } from '@mui/material';
+import TechnicalOverview from './TechnicalOverview';
+import AttributionModels from './AttributionModels';
+import AIInsights from './AIInsights';
+import CustomerJourney from './CustomerJourney';
 
 const AttributionPlatform = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    // TODO: Add data fetching logic here
-    setLoading(false);
-  }, []);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
   return (
-    <div className="attribution-platform">
-      <header className="platform-header">
-        <h1>Attribution Platform</h1>
-        <nav className="platform-nav">
-          <ul>
-            <li>Dashboard</li>
-            <li>Reports</li>
-            <li>Settings</li>
-          </ul>
-        </nav>
-      </header>
-      
-      <main className="platform-main">
-        <section className="data-overview">
-          <h2>Data Overview</h2>
-          {/* Add data visualization components here */}
-        </section>
-        
-        <section className="attribution-metrics">
-          <h2>Attribution Metrics</h2>
-          {/* Add attribution metrics components here */}
-        </section>
-      </main>
-    </div>
+    <Router>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Attribution Platform
+            </Typography>
+            <Button color="inherit" component={Link} to="/">
+              Technical Overview
+            </Button>
+            <Button color="inherit" component={Link} to="/attribution-models">
+              Attribution Models
+            </Button>
+            <Button color="inherit" component={Link} to="/ai-insights">
+              AI Insights
+            </Button>
+            <Button color="inherit" component={Link} to="/customer-journey">
+              Customer Journey
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <Container>
+          <Box sx={{ mt: 4 }}>
+            <Routes>
+              <Route path="/" element={<TechnicalOverview />} />
+              <Route path="/attribution-models" element={<AttributionModels />} />
+              <Route path="/ai-insights" element={<AIInsights />} />
+              <Route path="/customer-journey" element={<CustomerJourney />} />
+            </Routes>
+          </Box>
+        </Container>
+      </Box>
+    </Router>
   );
 };
 
